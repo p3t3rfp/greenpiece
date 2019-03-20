@@ -1,0 +1,27 @@
+{
+  "name": "greenpiece",
+  "version": "1.0.0",
+  "description": "## Overview",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/p3t3rfp/greenpiece.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/p3t3rfp/greenpiece/issues"
+  },
+  "homepage": "https://github.com/p3t3rfp/greenpiece#readme",
+  "dependencies": {
+    "concurrently": "^4.1.0",
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.19",
+    "morgan": "^1.9.1"
+  }
+}
