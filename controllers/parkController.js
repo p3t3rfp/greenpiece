@@ -1,19 +1,18 @@
-const express = require('express')
-const User = require('../models/User')
-const Park = require('../models/Park')
+const User = require('../models/UserSchema')
+const Park = require('../models/ParkSchema')
 
 const parkController = {
     index: (req, res) => {
         User.findById(req.params.userId).then((user) => {
-            res.json(user)
+            res.json(user.parks)
         }).catch((err) => {
             console.log(err)
         })
     },
 
     show: (req, res) => {
-        User.findById(req.params.userId).then(user => {
-            res.json(user)
+        Park.findById(req.params.parkId).then(park => {
+            res.json(park)
         }).catch((err) => {
             console.log(err)
         })
@@ -24,7 +23,7 @@ const parkController = {
             const newPark = new Park({})
             user.parks.push(newPark)
 
-            user.save().then(user => {
+            user.save().then(() => {
                 res.json(newPark)
 
             })
