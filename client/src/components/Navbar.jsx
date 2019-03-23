@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
 class Navbar extends Component {
@@ -16,8 +16,8 @@ class Navbar extends Component {
 
 
             </div>
-        );
+        )
     }
 }
 
-export default Navbar;
+export default Navbar

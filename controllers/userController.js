@@ -29,7 +29,7 @@ const userController = {
     update: (req,res) => {
         User.findByIdAndUpdate(req.params.userId, req.body, {new: true})
             .then(() => {
-                res.redirect(`/${req.params.userId}`)
+                res.redirect(`/user/${req.params.userId}`)
         }).catch((err) => {
             console.log(err)
             res.status(500).json(err)

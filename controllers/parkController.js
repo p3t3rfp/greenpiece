@@ -3,6 +3,14 @@ const Park = require('../models/ParkSchema')
 
 const parkController = {
     index: (req, res) => {
+        Park.find().then((parks) => {
+            res.json(parks)
+        }).catch((err) => {
+            console.log(err)
+        })
+    },
+
+    userIndex: (req,res) => {
         User.findById(req.params.userId).then((user) => {
             res.json(user.parks)
         }).catch((err) => {
@@ -33,7 +41,7 @@ const parkController = {
     update: (req, res) => {
         Park.findByIdAndUpdate(req.params.parkId, req.body, { new: true })
             .then(() => {
-                res.redirect(`/${req.params.userId}/parks`)
+                res.redirect(`/user/${req.params.userId}/parks`)
             }).catch((err) => {
                 console.log(err)
                 res.status(500).json(err)

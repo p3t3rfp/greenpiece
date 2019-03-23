@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
-import { Redirect, Link } from 'react-router-dom'
+import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
 import axios from 'axios'
 
 class Login extends Component {
     state = {
-        users: [],
         user: {
             name: '',
             password: '',
@@ -15,8 +14,8 @@ class Login extends Component {
 
 
     getUser = () => {
-        axios.get('/api/v1/:userId').then(res => {
-            this.setState({user: res.data})
+        axios.get('/api/v1/user/:userId').then(res => {
+            this.setState({ user: res.data })
         })
     }
 
@@ -24,45 +23,45 @@ class Login extends Component {
         axios.post('/api/v1', {
             user: this.state.user
         })
-        .then(res => {
-            console.log(res.data)
-            this.setState({redirectToHome: true, createdUser: res.data})
-        })
+            .then(res => {
+                console.log(res.data)
+                this.setState({ redirectToHome: true, createdUser: res.data })
+            })
     }
 
     handleChange = (event) => {
-        const user = {...this.state.user}
+        const user = { ...this.state.user }
         user[event.target.name] = event.target.value
-        this.setState({user})
+        this.setState({ user })
     }
 
     handleSignUp = (e) => {
         e.preventDefault()
         this.createUser()
-      }
+    }
 
     render() {
-        if(this.state.redirectToHome === true) {
-            return (<Redirect to={`/${this.state.createdUser._id}`} />)
+        if (this.state.redirectToHome === true) {
+            return (<Redirect to={`/parks`} />)
         }
+   
         return (
             <div>
                 <h1>Welcome to greenpiece</h1>
-                {/* <Link to='/'>Go Back Home</Link> */}
 
                 <form onSubmit={this.handleSignUp}>
                     <div>
                         <label htmlFor="name">Name</label>
-                        <input 
-                            type="text" 
+                        <input
+                            type="text"
                             name="name"
-                            onChange={this.handleChange} 
+                            onChange={this.handleChange}
                             value={this.state.user.name}
                         />
                     </div>
                     <div>
                         <label htmlFor="password">Password</label>
-                        <input 
+                        <input
                             type="password"
                             name='password'
                             onChange={this.handleChange}
@@ -76,4 +75,4 @@ class Login extends Component {
     }
 }
 
-export default Login;
+export default Login
