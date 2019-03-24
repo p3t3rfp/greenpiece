@@ -22,7 +22,7 @@ class Parks extends Component {
                         return (
                             <div key={park._id}>
                                 <Link
-                                    to={`/${park._id}`}
+                                    to={`/parks/${park._id}`}
                                 >
                                     {park.name}
                                 </Link>

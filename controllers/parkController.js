@@ -18,9 +18,17 @@ const parkController = {
         })
     },
 
-    show: (req, res) => {
+    showPark: (req, res) => {
         Park.findById(req.params.parkId).then(park => {
             res.json(park)
+        }).catch((err) => {
+            console.log(err)
+        })
+    },
+    
+    userShowPark: (req, res) => {
+        User.findById(req.params.userId).then(user => {
+            res.json(user.parks.parkId)
         }).catch((err) => {
             console.log(err)
         })

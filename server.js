@@ -11,7 +11,7 @@ app.use(express.static(`${__dirname}/client/build`))
 
 app.use('/api/v1', routes)
 
-app.get('/*', (req, res) => {
+app.get('/', (req, res) => {
     res.sendFile(`${__dirname}/client/build/index.html`)
   })
 

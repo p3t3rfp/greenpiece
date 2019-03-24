@@ -17,7 +17,8 @@ class User extends Component {
 
 
     componentDidMount = () => {
-        axios.get('/api/v1').then(res => {
+        console.log('component mounted')
+        axios.get(`/api/v1/user/${this.props.match.params.userId}/parks`).then(res => {
             this.setState({ parks: res.data })
         })
     }
@@ -71,7 +72,7 @@ class User extends Component {
                         return (
                             <div key={park._id}>
                                 <Link
-                                    to={`/${park._id}`}
+                                    to={`/parks/${park._id}`}
                                 >
                                     {park.name}
                                 </Link>
