@@ -1,6 +1,18 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import styled from 'styled-components'
+
+const Card = styled.div`
+    display: flex;
+    flex-direction: column;
+    background-color: #fafa98;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid lightgray;
+    border-radius: 2px;
+    margin: 15px 15px 15px 0;
+`
 
 class Parks extends Component {
     state = {
@@ -11,7 +23,6 @@ class Parks extends Component {
         console.log('mounted')
         axios.get('/api/v1/parks').then(res => {
             this.setState({ parks: res.data })
-            console.log(this.state.parks)
         })
     }
 
@@ -19,6 +30,8 @@ class Parks extends Component {
         return (
             <div>
                 <div>
+                { typeof this.props.location.state !== "undefined"
+                    ?
                     <Link to={{
                         pathname: `/user/${this.props.location.state.createdUser._id}/parks`,
                         state: {createdUser: this.props.location.state.createdUser._id}
@@ -26,13 +39,15 @@ class Parks extends Component {
                     >  
                         Show my Parks
                     </Link>
+                    :null
+                }
                 </div>
                 {
                     this.state.parks.map(park => {
                         return (
-                            <div>
+                            <Card>
                                 <div key={park._id}>
-                                    <img src={park.image} alt='image of a park'/>
+                                    <img src={park.image} alt={park.name}/>
                                         
                                     <Link
                                         to={`/parks/${park._id}`}
@@ -40,7 +55,7 @@ class Parks extends Component {
                                         {park.name}
                                     </Link>
                                 </div>
-                            </div>
+                            </Card>
                         )
                     })
                 }

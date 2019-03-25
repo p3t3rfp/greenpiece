@@ -77,7 +77,7 @@ class User extends Component {
                             return (
                                 <div>
                                     <div key={park._id}>
-                                        <img src={park.image} alt='image of a park' />
+                                        <img src={park.image} alt={park.name} />
 
                                         <Link
                                             to={`/parks/${park._id}`}
