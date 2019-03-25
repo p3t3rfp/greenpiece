@@ -9,6 +9,7 @@ import './App.css';
 
 class App extends Component {
   render() {
+
     return (
       <div>
         <Router>
@@ -21,7 +22,7 @@ class App extends Component {
               <Route exact path='/parks' component={Parks} />
               <Route exact path='/parks/:parkId' component={Park} />
               <Route exact path='/user/:userId/parks' component={User} />
-              <Route exact path='/:userId/parks' component={Parks} />
+              <Route exact path='/user/:userId/parks/:parkId' component={Parks} />
             </Switch>
           </div>
         </Router>

@@ -12,7 +12,10 @@ const parkController = {
 
     userIndex: (req,res) => {
         User.findById(req.params.userId).then((user) => {
-            res.json(user.parks)
+            Park.find().then((parks) => {
+                res.json(parks)
+            })
+            res.json(user)
         }).catch((err) => {
             console.log(err)
         })
@@ -36,12 +39,12 @@ const parkController = {
 
     create: (req, res) => {
         User.findById(req.params.userId).then((user) => {
-            const newPark = new Park({})
-            user.parks.push(newPark)
-
-            user.save().then(() => {
+            Park.create(req.body)
+            .then((newPark) => {
+                console.log(newPark)
+                user.parks.push(newPark)
+                user.save()
                 res.json(newPark)
-
             })
         })
     },

@@ -8,8 +8,14 @@ class Login extends Component {
             name: '',
             password: '',
         },
-        redirectToHome: false,
-        createdUser: {},
+        redirectToParks: false,
+        createdUser: {
+            parks: []
+        },
+    }
+
+    componentDidMount() {
+
     }
 
 
@@ -24,8 +30,8 @@ class Login extends Component {
             user: this.state.user
         })
             .then(res => {
-                console.log(res.data)
-                this.setState({ redirectToHome: true, createdUser: res.data })
+                this.setState({ redirectToParks: true, createdUser: res.data })
+                console.log(this.state.createdUser._id)
             })
     }
 
@@ -41,8 +47,11 @@ class Login extends Component {
     }
 
     render() {
-        if (this.state.redirectToHome === true) {
-            return (<Redirect to={`/parks`} />)
+        if (this.state.redirectToParks === true) {
+            return (<Redirect to={{
+                        pathname: `/parks`,
+                        state: {createdUser: this.state.createdUser}
+                    }} />)
         }
    
         return (

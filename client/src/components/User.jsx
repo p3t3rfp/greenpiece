@@ -19,7 +19,8 @@ class User extends Component {
     componentDidMount = () => {
         console.log('component mounted')
         axios.get(`/api/v1/user/${this.props.match.params.userId}/parks`).then(res => {
-            this.setState({ parks: res.data })
+            console.log(res.data)
+            this.setState({ parks: res.data.parks })
         })
     }
 
@@ -37,16 +38,18 @@ class User extends Component {
 
     createPark = (e) => {
         e.preventDefault()
+        // console.log(this.props.match.params.userId)
         axios
-            .post('/api/v1/user/:userId/parks', {
+            .post(`/api/v1/user/${this.props.match.params.userId}/parks`, {
                 name: this.state.newPark.name,
                 neighborhood: this.state.newPark.neighborhood,
                 playground: this.state.newPark.playground,
                 dogs: this.state.newPark.dogs,
-                image: this.state.newPark.image,
+                image: this.state.newPark.image
             })
             .then(res => {
                 const parksList = [...this.state.parks]
+                console.log(parksList)
                 parksList.unshift(res.data)
                 this.setState({
                     newPark: {
@@ -66,20 +69,28 @@ class User extends Component {
     render() {
         return (
             <div>
-                <h2>Green Spaces</h2>
-                {
-                    this.state.parks.map(park => {
-                        return (
-                            <div key={park._id}>
-                                <Link
-                                    to={`/parks/${park._id}`}
-                                >
-                                    {park.name}
-                                </Link>
-                            </div>
-                        )
-                    })
-                }
+                <h2>Your Favorite Green Spaces</h2>
+
+                <div>
+                    {
+                        this.state.parks.map(park => {
+                            return (
+                                <div>
+                                    <div key={park._id}>
+                                        <img src={park.image} alt='image of a park' />
+
+                                        <Link
+                                            to={`/parks/${park._id}`}
+                                        >
+                                            {park.name}
+                                        </Link>
+                                    </div>
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+
                 <button onClick={this.toggleParkForm}>+ New Park</button>
                 {
                     this.state.isParkFormDisplayed
@@ -134,7 +145,7 @@ class User extends Component {
                                     value={this.state.newPark.dogs}
                                 />
                             </div>
-                           
+
                             <button>Create</button>
                         </form>
                         : null

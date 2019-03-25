@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { Component } from 'react';
 
-function Park(props) {
-    return (
-        <div>
-            <h1>header</h1>
-        </div>
-    )
+class Park extends Component {
+    render() {
+        return (
+            <div>
+                
+            </div>
+        );
+    }
 }
 
-
-export default Park
+export default Park;
