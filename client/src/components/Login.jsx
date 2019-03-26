@@ -51,7 +51,8 @@ class Login extends Component {
             return (<Redirect to={{
                         pathname: `/parks`,
                         state: {createdUser: this.state.createdUser}
-                    }} />)
+                        }} 
+                    />)
         }
    
         return (

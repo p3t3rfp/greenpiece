@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import styled from 'styled-components'
 
+const Wrapper = styled.div`
+    width: 80%;
+    margin: 0 auto;
+`
+
 const Card = styled.div`
     display: flex;
     flex-direction: column;
@@ -22,7 +27,8 @@ const Pictures = styled.div`
 
 class Park extends Component {
     state = {
-        park: []
+        park: [],
+        createdUser: this.props.match.params.userId,
     }
 
     componentDidMount = () => {
@@ -32,38 +38,49 @@ class Park extends Component {
             })
     }
 
+    addPark = () => {
+        axios.post(`/api/v1/user/${this.state.createdUser._id}/parks/${this.props.match.params.parkId}`)
+            .then(res => {
+                this.setState({ park: res.data })
+            })
+    }
+
     render() {
         return (
-            <Card>
-                <div>
-                    Park name: {this.state.park.name}
+
+            <Wrapper>
+                <Card>
+                    <div>
+                        Park name: {this.state.park.name}
+                    </div>
+                    <div>
+                        Neighborhood: {this.state.park.neighborhood}
+                    </div>
+                    <Pictures>
+                        <img src={this.state.park.image} alt={this.state.park.name} />
+                    </Pictures>
+                    {
+                        this.state.park.playground ?
+                            <div>
+                                Has playground: Yes
                 </div>
-                <div>
-                    Neighborhood: {this.state.park.neighborhood}
+                            :
+                            <div>
+                                Has playground: No
                 </div>
-                <Pictures>
-                    <img src={this.state.park.image} alt={this.state.park.name} />
-                </Pictures>
-                {
-                    this.state.park.playground ?
+                    }
+                    {this.state.park.dogs ?
                         <div>
-                            Has playground: Yes
+                            Good for dogs: Yes
                 </div>
                         :
                         <div>
-                            Has playground: No
+                            Good for dogs: No
                 </div>
-                }
-                {this.state.park.dogs ?
-                    <div>
-                        Good for dogs: Yes
-                </div>
-                    :
-                <div>
-                        Good for dogs: No
-                </div>
-                }
-            </Card>
+                    }
+                    <button onClick={this.addPark}>Add to My Parks</button>
+                </Card>
+            </Wrapper>
         );
     }
 }
