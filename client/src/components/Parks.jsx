@@ -32,28 +32,16 @@ class Parks extends Component {
     }
 
     componentDidMount = () => {
-        console.log('mounted')
         axios.get('/api/v1/parks').then(res => {
             this.setState({ parks: res.data })
         })
     }
 
+    
+
     render() {
         return (
             <Wrapper>
-                <div>
-                { typeof this.props.location.state !== "undefined"
-                    ?
-                    <Link to={{
-                        pathname: `/user/${this.props.location.state.createdUser._id}/parks`,
-                        state: {createdUser: this.props.location.state.createdUser._id}
-                        }}
-                    >  
-                        Show my Parks
-                    </Link>
-                    :null
-                }
-                </div>
                 {
                     this.state.parks.map(park => {
                         return (
@@ -62,11 +50,13 @@ class Parks extends Component {
                                 <Pictures>
                                     <img src={park.image} alt={park.name}/>
                                 </Pictures>
-                                    <Link
-                                        to={`/parks/${park._id}`}
-                                    >
-                                        {park.name}
-                                    </Link>
+                                    <Link to={{
+                                        pathname: `/parks/${park._id}`,
+                                        state: {
+                                            createdUser: this.props.createdUser
+                                        }
+                                    }}>{park.name}</Link>
+                                    <button onClick={this.props.addPark}>Add to My Parks</button>
                                 </div>
                             </Card>
                         )

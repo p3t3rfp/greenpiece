@@ -9,13 +9,7 @@ class Login extends Component {
             password: '',
         },
         redirectToParks: false,
-        createdUser: {
-            parks: []
-        },
-    }
-
-    componentDidMount() {
-
+        createdUser: {},
     }
 
 
@@ -25,13 +19,14 @@ class Login extends Component {
         })
     }
 
+
+
     createUser = () => {
         axios.post('/api/v1', {
             user: this.state.user
         })
             .then(res => {
                 this.setState({ redirectToParks: true, createdUser: res.data })
-                console.log(this.state.createdUser._id)
             })
     }
 
@@ -49,12 +44,15 @@ class Login extends Component {
     render() {
         if (this.state.redirectToParks === true) {
             return (<Redirect to={{
-                        pathname: `/parks`,
-                        state: {createdUser: this.state.createdUser}
-                        }} 
-                    />)
+                pathname: `/user/${this.state.createdUser._id}/parks`,
+                state: {
+                    createdUser: this.state.createdUser,
+                    name: this.state.name,
+                }
+            }}
+            />)
         }
-   
+
         return (
             <div>
                 <h1>Welcome to greenpiece</h1>
@@ -69,16 +67,7 @@ class Login extends Component {
                             value={this.state.user.name}
                         />
                     </div>
-                    <div>
-                        <label htmlFor="password">Password</label>
-                        <input
-                            type="password"
-                            name='password'
-                            onChange={this.handleChange}
-                            value={this.state.user.password}
-                        />
-                    </div>
-                    <button>Create User</button>
+                    <button>Let's Get Outside</button>
                 </form>
             </div>
         )

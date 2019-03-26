@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import styled from 'styled-components'
+import axios from 'axios'
 
 const NavBarStyle = styled.div`
     h1 {
@@ -10,26 +11,25 @@ const NavBarStyle = styled.div`
         color: #fafafa;
     }
 `
+
+
 class Navbar extends Component {
+
     render() {
-        return (
-            <div>
-                <NavBarStyle>
-                    <h1>greenpiece</h1>
-                    <div>
+
+            return (
+                <div>
+                    <NavBarStyle>
+                        <h1>greenpiece</h1>
                         <div>
-                            <Link to='/'>Home</Link>
+                            
                         </div>
-                        {/* <div>
-                            <Link to='/parks'>All Parks</Link>
-                        </div> */}
-                    </div>
-                </NavBarStyle>
+                    </NavBarStyle>
 
 
-            </div>
-        )
+                </div>
+            )
+        }
     }
-}
 
-export default Navbar
+    export default Navbar

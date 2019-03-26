@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
+import Parks from './Parks'
 
 class UserParks extends Component {
 
@@ -14,18 +15,27 @@ class UserParks extends Component {
             image: '',
         },
         isParkFormDisplayed: false,
-        createdUser: this.props.location.state.createdUser
+        createdUser: "",
+        startOver: false,
     }
 
-
     componentDidMount = () => {
-        console.log('component mounted')
-        console.log(this.state.createdUser)
-        axios.get(`/api/v1/user/${this.state.createdUser}/parks`).then(res => {
+        axios.get(`/api/v1/user/${this.props.match.params.userId}/parks`).then(res => {
             console.log(res.data)
             this.setState({ parks: res.data.parks })
         })
+
+        axios.get(`/api/v1/user/${this.props.match.params.userId}`).then((res) => this.setState({createdUser: res.data._id}))
     }
+
+    deleteUser = () => {
+        const userId = this.props.match.params.userId
+        axios.delete(`/api/v1/user/${userId}`)
+            .then(res => {
+                this.setState({ startOver: true })
+            })
+    }
+
 
     toggleParkForm = () => {
         this.setState((state, props) => {
@@ -69,88 +79,117 @@ class UserParks extends Component {
 
     }
 
+    addPark = () => {
+        axios.put(`/api/v1/user/${this.props.match.params.userId}/parks`)
+            .then(res => {
+                const newParks = [...this.state.parks]
+                newParks.push(res.data)
+                console.log(res.data)
+
+                this.setState({ parks: newParks })
+            })
+    }
+
     render() {
+        if (this.state.startOver) {
+            return (<Redirect to={{
+                pathname: '/'
+            }}
+            />)
+        }
         return (
             <div>
-                <h2>Your Favorite Green Spaces</h2>
-
                 <div>
-                    {
-                        this.state.parks.map(park => {
-                            return (
-                                <div key={park._id}>
-                                    <img src={park.image} alt={park.name} />
-
-                                    <Link
-                                        to={`/user/${this.state.createdUser}/parks/${park._id}`}
-                                    >
-                                        {park.name}
-                                    </Link>
-                                </div>
-                            )
-                        })
-                    }
+                    <button onClick={this.deleteUser}>Remove User</button>
                 </div>
+                <div>
+                    <h2>Your Favorite Green Spaces</h2>
 
-                <button onClick={this.toggleParkForm}>+ New Park</button>
-                {
-                    this.state.isParkFormDisplayed
-                        ? <form onSubmit={this.createPark}>
-                            <div>
-                                <label htmlFor="name">Name</label>
-                                <input
-                                    id="name"
-                                    type="text"
-                                    name="name"
-                                    onChange={this.handleChange}
-                                    value={this.state.newPark.name}
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="neighborhood">Neighborhood</label>
-                                <input
-                                    id="neighborhood"
-                                    type="text"
-                                    name="neighborhood"
-                                    onChange={this.handleChange}
-                                    value={this.state.newPark.neighborhood}
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="image">Image</label>
-                                <input
-                                    id="image"
-                                    type="text"
-                                    name="image"
-                                    onChange={this.handleChange}
-                                    value={this.state.newPark.image}
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="playground">Playground</label>
-                                <input
-                                    id="playground"
-                                    type="checkbox"
-                                    name="playground"
-                                    onChange={this.handleChange}
-                                    value={this.state.newPark.playground}
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="dogs">Dogs</label>
-                                <input
-                                    id="dogs"
-                                    type="checkbox"
-                                    name="dogs"
-                                    onChange={this.handleChange}
-                                    value={this.state.newPark.dogs}
-                                />
-                            </div>
+                    <div>
+                        {
+                            this.state.parks.map(park => {
+                                return (
+                                    <div key={park._id}>
+                                        <img src={park.image} alt={park.name} />
+                                        <div>
+                                            <Link
+                                                to={`/parks/${park._id}`}
+                                            >
+                                                {park.name}
+                                            </Link>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
 
-                            <button>Create</button>
-                        </form>
-                        : null
-                }
+                    <button onClick={this.toggleParkForm}>+ New Park</button>
+                    {
+                        this.state.isParkFormDisplayed
+                            ? <form onSubmit={this.createPark}>
+                                <div>
+                                    <label htmlFor="name">Name</label>
+                                    <input
+                                        id="name"
+                                        type="text"
+                                        name="name"
+                                        onChange={this.handleChange}
+                                        value={this.state.newPark.name}
+                                    />
+                                </div>
+                                <div>
+                                    <label htmlFor="neighborhood">Neighborhood</label>
+                                    <input
+                                        id="neighborhood"
+                                        type="text"
+                                        name="neighborhood"
+                                        onChange={this.handleChange}
+                                        value={this.state.newPark.neighborhood}
+                                    />
+                                </div>
+                                <div>
+                                    <label htmlFor="image">Image</label>
+                                    <input
+                                        id="image"
+                                        type="text"
+                                        name="image"
+                                        onChange={this.handleChange}
+                                        value={this.state.newPark.image}
+                                    />
+                                </div>
+                                <div>
+                                    <label htmlFor="playground">Playground</label>
+                                    <input
+                                        id="playground"
+                                        type="checkbox"
+                                        name="playground"
+                                        onChange={this.handleChange}
+                                        value={this.state.newPark.playground}
+                                    />
+                                </div>
+                                <div>
+                                    <label htmlFor="dogs">Dogs</label>
+                                    <input
+                                        id="dogs"
+                                        type="checkbox"
+                                        name="dogs"
+                                        onChange={this.handleChange}
+                                        value={this.state.newPark.dogs}
+                                    />
+                                </div>
+
+                                <button>Create</button>
+                            </form>
+                            : null
+                    }
+                    <div>
+                        <h2>Add some new Parks to your Green Spaces</h2>
+                        <Parks parks={this.state.parks} addPark={this.addPark}
+                            createdUser={this.state.createdUser}
+                        />
+                    </div>
+                </div>
             </div>
         );
     }

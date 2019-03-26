@@ -31,7 +31,8 @@ const parkController = {
     
     userShowPark: (req, res) => {
         User.findById(req.params.userId).then(user => {
-            res.json(user.parks.parkId)
+            const park = user.parks.id(req.params.parkId)
+            res.json(park)
         }).catch((err) => {
             console.log(err)
         })
