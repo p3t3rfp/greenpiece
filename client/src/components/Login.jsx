@@ -6,7 +6,6 @@ class Login extends Component {
     state = {
         user: {
             name: '',
-            password: '',
         },
         redirectToParks: false,
         createdUser: {},
@@ -47,7 +46,7 @@ class Login extends Component {
                 pathname: `/user/${this.state.createdUser._id}/parks`,
                 state: {
                     createdUser: this.state.createdUser,
-                    name: this.state.name,
+                    name: this.state.user.name,
                 }
             }}
             />)

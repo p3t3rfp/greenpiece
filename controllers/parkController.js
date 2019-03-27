@@ -52,8 +52,9 @@ const parkController = {
 
     update: (req, res) => {
         Park.findByIdAndUpdate(req.params.parkId, req.body, { new: true })
-            .then(() => {
-                res.redirect(`/user/${req.params.userId}/parks`)
+            .then((park) => {
+                // res.redirect(`/user/${req.params.userId}/parks`)
+                res.json(park)
             }).catch((err) => {
                 console.log(err)
                 res.status(500).json(err)

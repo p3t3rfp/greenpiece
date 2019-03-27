@@ -36,7 +36,6 @@ class Park extends Component {
             dogs: false,
         },
         parkId: this.props.match.params.parkId,
-        createdUser: this.props.match.params.userId,
         isParkFormDisplayed: false,
     }
 
@@ -52,16 +51,25 @@ class Park extends Component {
     }
 
     addPark = () => {
-        axios.post(`/api/v1/user/${this.state.createdUser}/parks`)
+        axios.post(`/api/v1/user/${this.props.location.state.createdUser}/parks`)
             .then(res => {
                 this.setState({ park: res.data })
             })
     }
 
-    updatePark = () => {
-        axios.patch(`/api/user/${this.state.createdUser}/parks/${this.state.parkId}`).then(res => {
+    updatePark = (e) => {
+        e.preventDefault()
+        axios.put(`/api/v1/parks/${this.state.parkId}`, {
+            name: this.state.park.name,
+            neighborhood: this.state.park.neighborhood,
+            image: this.state.park.image,
+            dogs: this.state.park.dogs,
+            playground: this.state.park.playground
+        }).then(res => {
+            console.log("MY DATA", res.data)
             this.setState({ park: res.data })
         })
+        this.props.history.goBack()
     }
 
     toggleParkForm = () => {
@@ -71,9 +79,29 @@ class Park extends Component {
     }
 
     handleChange = (e) => {
+        console.log('HEy')
         const cloneNewPark = { ...this.state.park }
+        console.log(cloneNewPark)
         cloneNewPark[e.target.name] = e.target.value
         this.setState({ park: cloneNewPark })
+    }
+
+    toggleCheckedPlayground = () => {
+        this.setState({park: {
+            name: this.state.park.name,
+            neighborhood: this.state.park.neighborhood,
+            image: this.state.park.image,
+            dogs: this.state.park.dogs,
+            playground: !this.state.park.playground}})
+    }
+
+    toggleCheckedDogs = () => {
+        this.setState({park: {
+            name: this.state.park.name,
+            neighborhood: this.state.park.neighborhood,
+            image: this.state.park.image,
+            dogs: !this.state.park.dogs,
+            playground: this.state.park.playground}})
     }
 
     render() {
@@ -157,23 +185,53 @@ class Park extends Component {
                                 </div>
                                 <div>
                                     <label htmlFor="playground">Playground</label>
+                                    {this.state.park.playground ?  
+                                    
+                                    <input
+                                        checked
+                                        id="playground"
+                                        type="checkbox"
+                                        name="playground"
+                                        onClick={this.toggleCheckedPlayground}
+                                        value={this.state.park.playground}
+                                    />
+                                    
+                                    : 
+                                    
                                     <input
                                         id="playground"
                                         type="checkbox"
                                         name="playground"
-                                        onChange={this.handleChange}
+                                        onClick={this.toggleCheckedPlayground}
                                         value={this.state.park.playground}
                                     />
+
+                                    }
                                 </div>
                                 <div>
                                     <label htmlFor="dogs">Dogs</label>
+                                    {this.state.park.dogs ?  
+                                    
                                     <input
-                                        id="dogs"
+                                        checked
+                                        id="playground"
                                         type="checkbox"
-                                        name="dogs"
-                                        onChange={this.handleChange}
+                                        name="playground"
+                                        onClick={this.toggleCheckedDogs}
                                         value={this.state.park.dogs}
                                     />
+                                    
+                                    : 
+                                    
+                                    <input
+                                        id="playground"
+                                        type="checkbox"
+                                        name="playground"
+                                        onClick={this.toggleCheckedDogs}
+                                        value={this.state.park.dogs}
+                                    />
+
+                                    }
                                 </div>
 
                                 <button>Update</button>

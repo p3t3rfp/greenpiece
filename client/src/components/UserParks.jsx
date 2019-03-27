@@ -21,7 +21,6 @@ class UserParks extends Component {
 
     componentDidMount = () => {
         axios.get(`/api/v1/user/${this.props.match.params.userId}/parks`).then(res => {
-            console.log(res.data)
             this.setState({ parks: res.data.parks })
         })
 
@@ -51,7 +50,6 @@ class UserParks extends Component {
 
     createPark = (e) => {
         e.preventDefault()
-        // console.log(this.props.match.params.userId)
         axios
             .post(`/api/v1/user/${this.props.match.params.userId}/parks`, {
                 name: this.state.newPark.name,
@@ -62,7 +60,6 @@ class UserParks extends Component {
             })
             .then(res => {
                 const parksList = [...this.state.parks]
-                console.log(parksList)
                 parksList.unshift(res.data)
                 this.setState({
                     newPark: {
