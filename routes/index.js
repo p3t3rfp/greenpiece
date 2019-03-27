@@ -19,7 +19,7 @@ router.get('/user/:userId/parks', parkController.userIndex)
 router.post('/user/:userId/parks', parkController.create)
 router.get('/user/:userId/parks/:parkId', parkController.userShowPark)
 router.put('/parks/:parkId', parkController.update)
-router.delete('/user/:userId/parks/:parkId', parkController.delete)
+router.delete('/parks/:parkId', parkController.delete)
 
 
 

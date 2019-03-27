@@ -40,11 +40,8 @@ class Park extends Component {
     }
 
     componentDidMount = () => {
-        // axios.get(`/api/v1/user/${this.props.match.params.userId}/parks/${this.props.match.params.parkId}`)
         axios.get(`/api/v1/parks/${this.props.match.params.parkId}`)
             .then(res => {
-                console.log(res.data)
-                // console.log(this.state.park)
                 this.setState({ park: res.data })
                 
             })
@@ -57,6 +54,15 @@ class Park extends Component {
             })
     }
 
+    deletePark = () => {
+        const parkId = this.props.match.params.parkId
+        axios.delete(`/api/v1/parks/${parkId}`)
+            .then(res => {
+                this.setState({ park: res.data })
+            })
+            this.props.history.goBack()
+    }
+
     updatePark = (e) => {
         e.preventDefault()
         axios.put(`/api/v1/parks/${this.state.parkId}`, {
@@ -66,7 +72,6 @@ class Park extends Component {
             dogs: this.state.park.dogs,
             playground: this.state.park.playground
         }).then(res => {
-            console.log("MY DATA", res.data)
             this.setState({ park: res.data })
         })
         this.props.history.goBack()
@@ -79,9 +84,7 @@ class Park extends Component {
     }
 
     handleChange = (e) => {
-        console.log('HEy')
         const cloneNewPark = { ...this.state.park }
-        console.log(cloneNewPark)
         cloneNewPark[e.target.name] = e.target.value
         this.setState({ park: cloneNewPark })
     }
@@ -150,6 +153,7 @@ class Park extends Component {
                     }
                     <button onClick={this.addPark}>Add to My Parks</button>
                     <button onClick={this.toggleParkForm}>Update this Park</button>
+                    <button onClick={this.deletePark}>Remove this Park</button>
                     {
                         this.state.isParkFormDisplayed
                             ? <form onSubmit={this.updatePark}>

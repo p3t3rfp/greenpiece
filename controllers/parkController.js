@@ -42,7 +42,6 @@ const parkController = {
         User.findById(req.params.userId).then((user) => {
             Park.create(req.body)
             .then((newPark) => {
-                console.log(newPark)
                 user.parks.push(newPark)
                 user.save()
                 res.json(newPark)
@@ -53,7 +52,6 @@ const parkController = {
     update: (req, res) => {
         Park.findByIdAndUpdate(req.params.parkId, req.body, { new: true })
             .then((park) => {
-                // res.redirect(`/user/${req.params.userId}/parks`)
                 res.json(park)
             }).catch((err) => {
                 console.log(err)

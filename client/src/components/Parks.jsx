@@ -56,7 +56,6 @@ class Parks extends Component {
                                             createdUser: this.props.createdUser
                                         }
                                     }}>{park.name}</Link>
-                                    <button onClick={this.props.addPark}>Add to My Parks</button>
                                 </div>
                             </Card>
                         )
