@@ -6,6 +6,7 @@ display: flex;
 align-items: center;
     h1 {
         font-size: 60px;
+        text-shadow: 2px 2px 8px #000000;
         color: #269d26;
         margin-left: 35px;
     }

@@ -9,6 +9,10 @@ const Wrapper = styled.div`
     margin: 0 auto;
 `
 
+const FormWrapper = styled.div`
+    width: 80%;
+`
+
 const Card = styled.div`
     display: flex;
     flex-direction: column;
@@ -49,6 +53,7 @@ const Button = styled.button`
 const Headings = styled.div`
     text-align: center;
     font-size: 30px;
+    text-shadow: 2px 2px 4px #000000;
     color: #fafafa;
 `
 
@@ -60,9 +65,14 @@ const Label = styled.label`
 const Form = styled.form`
     background: #78a778;
     display: flex;
-    align-items: center;
     border: 1px solid black;
     border-radius: 4px;
+    flex-direction: column;
+    padding-left: 20px;
+    width: 400px;
+    button {
+        width: 60px;
+    }
     div {
         flex-direction: column;
 
@@ -160,28 +170,6 @@ class UserParks extends Component {
 
     }
 
-    deletePark = () => {
-        const parkId = this.props.match.params.parkId
-        axios.delete(`/api/v1/parks/${parkId}`)
-            .then(() => {
-                axios.delete(`/api/v1/user/${this.state.createdUser}/parks/${this.props.match.params.parkId}`)
-            })
-            .then(res => {
-                this.setState({ parks: res.data, allParks: res.data })
-            })
-            .then(() => {
-                this.getAllParks()
-            })
-            .then(() => {
-                this.getParks()
-            })
-            .then(() => {
-                this.props.history.goBack()
-            })
-
-
-    }
-
     addPark = () => {
         axios.get(`/api/v1/user/${this.props.match.params.userId}/parks`)
             .then(res => {
@@ -263,8 +251,7 @@ class UserParks extends Component {
                     </Wrapper>
 
                     <Button onClick={this.toggleParkForm}>+ New Park</Button>
-                    <Wrapper>
-                        <FlexRowCentered>
+                    <FormWrapper>
                             {
                                 this.state.isParkFormDisplayed
                                     ? <Form onSubmit={this.createPark}>
@@ -353,8 +340,7 @@ class UserParks extends Component {
                                     </Form>
                                     : null
                             }
-                        </FlexRowCentered>
-                    </Wrapper>
+                    </FormWrapper>
                     <div>
                         <Headings>Add some new Parks to your Green Spaces</Headings>
                         <Parks parks={this.state.parks} addPark={this.addPark}
