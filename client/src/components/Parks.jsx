@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -12,6 +11,7 @@ const Card = styled.div`
     display: flex;
     flex-direction: column;
     background-color: #78a778;
+    opacity: .9;
     align-items: center;
     text-align: center;
     padding: 20px;
@@ -26,41 +26,48 @@ const Pictures = styled.div`
     }
 `
 
+const FlexContainerCentered = styled.div`
+    display: flex;
+    align-items: center;
+`
+
+const FlexRowCentered = styled(FlexContainerCentered)`
+    flex-direction: row;
+    flex-wrap: wrap;
+`
 class Parks extends Component {
-    state = {
-        parks: [],
-    }
+
 
     componentDidMount = () => {
-        axios.get('/api/v1/parks').then(res => {
-            this.setState({ parks: res.data })
-        })
+        this.props.getAllParks()
     }
 
-    
+
 
     render() {
         return (
             <Wrapper>
-                {
-                    this.state.parks.map(park => {
-                        return (
-                            <Card>
-                                <div key={park._id}>
-                                <Pictures>
-                                    <img src={park.image} alt={park.name}/>
-                                </Pictures>
-                                    <Link to={{
-                                        pathname: `/parks/${park._id}`,
-                                        state: {
-                                            createdUser: this.props.createdUser
-                                        }
-                                    }}>{park.name}</Link>
-                                </div>
-                            </Card>
-                        )
-                    })
-                }
+                <FlexRowCentered>
+                    {
+                        this.props.allParks.map(park => {
+                            return (
+                                <Card key={`allParks${park._id}`}>
+                                    <div>
+                                        <Pictures>
+                                            <img src={park.image} alt={park.name} />
+                                        </Pictures>
+                                        <Link to={{
+                                            pathname: `/parks/${park._id}`,
+                                            state: {
+                                                createdUser: this.props.createdUser
+                                            }
+                                        }}>{park.name}</Link>
+                                    </div>
+                                </Card>
+                            )
+                        })
+                    }
+                </FlexRowCentered>
             </Wrapper>
         )
     }

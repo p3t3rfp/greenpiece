@@ -2,11 +2,17 @@ const mongoose = require('./connection')
 const Schema = mongoose.Schema
 
 const ParkSchema = new Schema ({
-    name: String,
+    name: {
+        type: String,
+        default: 'Park Name'
+    },
     neighborhood: String,
     playground: Boolean,
     dogs: Boolean,
-    image: String,
+    image: {
+       type: String,
+        default: 'https://via.placeholder.com/250' 
+    }
 })
 
 const UserSchema = new Schema ({

@@ -1,6 +1,69 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import axios from 'axios'
+import styled from 'styled-components'
+
+const Wrapper = styled.div`
+    width: 80%;
+    margin: 0 auto;
+`
+
+const Button = styled.button`
+    background-color: lightblue;
+    border: 2px solid lightgray;
+    border-radius: 3px;
+    margin: 2px;
+`
+const FlexContainerCentered = styled.div`
+    display: flex;
+    align-items: center;
+`
+
+const FlexRowCentered = styled(FlexContainerCentered)`
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+`
+
+const Card = styled.div`
+    display: flex;
+    flex-direction: column;
+    background-color: #78a778;
+    opacity: .9;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid lightgray;
+    border-radius: 2px;
+    margin: 15px 15px 15px 0;
+    p {
+        color: #fafafa;
+        font-size: 25px;
+    }
+`
+
+const Label = styled.label`
+    font-size: 18px;
+    color: #fafafa;
+`
+
+const Form = styled.form`
+    background: #78a778;
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 4px;
+    
+    input {
+        margin: 15px;
+    }
+`
+
+const Headings = styled.div`
+    text-align: center;
+    font-size: 30px;
+    color: #fafafa;
+`
 
 class Login extends Component {
     state = {
@@ -53,22 +116,28 @@ class Login extends Component {
         }
 
         return (
-            <div>
-                <h1>Welcome to greenpiece</h1>
+            <Wrapper>
+                <FlexRowCentered>
 
-                <form onSubmit={this.handleSignUp}>
-                    <div>
-                        <label htmlFor="name">Name</label>
-                        <input
-                            type="text"
-                            name="name"
-                            onChange={this.handleChange}
-                            value={this.state.user.name}
-                        />
-                    </div>
-                    <button>Let's Get Outside</button>
-                </form>
-            </div>
+                    <Card>
+                        <Headings>Welcome to greenpiece</Headings>
+                        <p>Find your piece</p>
+
+                        <Form onSubmit={this.handleSignUp}>
+                            <div>
+                                <Label htmlFor="name">Name</Label>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    onChange={this.handleChange}
+                                    value={this.state.user.name}
+                                />
+                            </div>
+                            <Button>Let's Get Outside</Button>
+                        </Form>
+                    </Card>
+                </FlexRowCentered>
+            </Wrapper>
         )
     }
 }
