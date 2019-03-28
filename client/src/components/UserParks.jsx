@@ -47,13 +47,13 @@ const Button = styled.button`
     background-color: lightblue;
     border: 2px solid lightgray;
     border-radius: 3px;
-    margin: 2px;
+    margin: 8px;
 `
 
 const Headings = styled.div`
     text-align: center;
     font-size: 30px;
-    text-shadow: 2px 2px 4px #000000;
+    text-shadow: 4px 4px 8px #000000;
     color: #fafafa;
 `
 
